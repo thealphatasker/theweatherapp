@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>JS API</h1>
+    <br />
+    <!-- form -->
+    <form
+      onsubmit="
+        checkWeather();
+        return false;
+      "
+    >
+      <label for="user-city">City name:</label>
+
+      <input
+        type="text"
+        name="user-city"
+        id="user-city"
+        placeholder="Enter the city name"
+      />
+      <br />
+      <button type="submit">Check weather</button>
+    </form>
+
+    <br />
+    <div id="show-weather"></div>
+
+    <!-- JS Code -->
+    <script>
+      function checkWeather() {
+        //   API Calling
+
+        const theCity = document.querySelector("#user-city").value;
+
+        const theWeather = document.querySelector("#show-weather");
+
+        const weatherAPI = fetch(
+          `https://p2pclouds.up.railway.app/v1/learn/weather?city=${theCity}`,
+        );
+
+        weatherAPI
+          .then((data) => {
+            return data.json();
+          })
+          .then((data) => {
+            console.log(data.current);
+            theWeather.innerHTML = `${theCity} temperature is:  ${data.current.temp_c}`;
+          })
+          .catch((err) => {
+            theWeather.innerHTML = "oo, Something went wrong!";
+          });
+      }
+
+      //   //  JSON Parsing
+
+      //   const students = {
+      //     name: "Alpha",
+      //     class: "BSIT",
+      //     rollNo: "777",
+      //   };
+
+      //   const studentsJson = JSON.stringify(students);
+
+      //   console.log(studentsJson);
+      //   console.log(JSON.parse(studentsJson));
+    </script>
+  </body>
+</html>
